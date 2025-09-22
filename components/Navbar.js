@@ -13,6 +13,12 @@ import {
   LogOut,
   Settings,
   Sparkles,
+  Home,
+  Calendar,
+  Info,
+  Mail,
+  Bell,
+  UserCheck,
 } from "lucide-react";
 import { useAuthContext } from "@/contexts/AuthContext";
 
@@ -47,6 +53,20 @@ export function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
 
   const handleLogout = async () => {
     await signOut();
@@ -104,13 +124,32 @@ export function Navbar() {
     }
   };
 
+  // Navigation items with icons
+  const navigationItems = [
+    { href: "/", label: "Home", icon: Home },
+    { href: "/activity", label: "Activity", icon: Activity },
+    { href: "/about", label: "About", icon: Info },
+    { href: "/contact", label: "Contact", icon: Mail },
+  ];
+
+  const userMenuItems = [
+    { href: "/profile", icon: User, label: "Profile", key: "profile" },
+    {
+      href: getDashboardLink(),
+      icon: Activity,
+      label: "Dashboard",
+      key: "dashboard",
+    },
+    { href: "/settings", icon: Settings, label: "Settings", key: "settings" },
+  ].filter((item) => !(item.key === "dashboard" && item.href === "/profile"));
+
   return (
     <>
       {/* Premium gradient background overlay */}
-      <div className="fixed w-full top-0 z-40 h-20 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none" />
+      <div className="fixed w-full top-0 z-51 h-20 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none" />
 
       <nav
-        className={`fixed w-full top-0 z-50 transition-all duration-500 ease-in-out ${
+        className={`fixed w-full top-0 z-52 transition-all duration-500 ease-in-out ${
           scrolled
             ? "backdrop-blur-3xl border-b border-white/20 bg-black/40 shadow-2xl shadow-black/50"
             : "backdrop-blur-2xl border-b border-white/10 bg-black/20"
@@ -145,12 +184,7 @@ export function Navbar() {
 
             {/* Enhanced Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
-              {[
-                { href: "/", label: "Home" },
-                { href: "/activity", label: "Activity" },
-                { href: "/about", label: "About" },
-                { href: "/contact", label: "Contact" },
-              ].map((item, index) => (
+              {navigationItems.map((item, index) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -231,7 +265,7 @@ export function Navbar() {
 
                     {/* Enhanced Dropdown Menu */}
                     {isDropdownOpen && (
-                      <div className="absolute right-0 mt-3 min-w-56 bg-black/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
+                      <div className="absolute right-0 mt-3 min-w-56 bg-black/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20 py-2 z-52 animate-in slide-in-from-top-2 duration-200">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl" />
 
                         <div className="relative px-4 py-4 border-b border-white/10">
@@ -267,48 +301,20 @@ export function Navbar() {
                         </div>
 
                         <div className="relative py-2">
-                          {[
-                            {
-                              href: "/profile",
-                              icon: User,
-                              label: "Profile",
-                              key: "profile",
-                            },
-                            {
-                              href: getDashboardLink(),
-                              icon: Activity,
-                              label: "Dashboard",
-                              key: "dashboard",
-                            },
-                            {
-                              href: "/settings",
-                              icon: Settings,
-                              label: "Settings",
-                              key: "settings",
-                            },
-                          ]
-                            .filter(
-                              (item, index, arr) =>
-                                // Remove dashboard if it points to profile to avoid duplicates
-                                !(
-                                  item.key === "dashboard" &&
-                                  item.href === "/profile"
-                                )
-                            )
-                            .map((item) => (
-                              <Link
-                                key={item.key}
-                                href={item.href}
-                                className="flex items-center px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-200 group"
-                                onClick={() => setIsDropdownOpen(false)}
-                              >
-                                <item.icon className="h-4 w-4 mr-3 group-hover:text-accent transition-colors duration-200" />
-                                {item.label}
-                                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                  <ChevronDown className="h-3 w-3 -rotate-90" />
-                                </div>
-                              </Link>
-                            ))}
+                          {userMenuItems.map((item) => (
+                            <Link
+                              key={item.key}
+                              href={item.href}
+                              className="flex items-center px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-200 group"
+                              onClick={() => setIsDropdownOpen(false)}
+                            >
+                              <item.icon className="h-4 w-4 mr-3 group-hover:text-accent transition-colors duration-200" />
+                              {item.label}
+                              <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <ChevronDown className="h-3 w-3 -rotate-90" />
+                              </div>
+                            </Link>
+                          ))}
 
                           <hr className="my-2 border-white/10" />
 
@@ -376,151 +382,182 @@ export function Navbar() {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded" />
                 {isMenuOpen ? (
-                  <X className="h-7 w-7 relative z-10" />
+                  <X className="h-7 text-2xl w-7 relative z-10" />
                 ) : (
                   <Menu className="h-7 w-7 relative z-10" />
                 )}
               </Button>
             </div>
           </div>
-
-          {/* Enhanced Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden animate-in slide-in-from-top duration-300">
-              <div className="px-2 pt-4 pb-4 space-y-2 bg-black/40 backdrop-blur-2xl border-t border-white/20 rounded-b-2xl shadow-2xl mt-2">
-                {[
-                  { href: "/", label: "Home" },
-                  { href: "/activity", label: "Activity" },
-                  { href: "/about", label: "About" },
-                  { href: "/contact", label: "Contact" },
-                ].map((item, index) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-300 rounded-xl font-medium group"
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    <div className="flex items-center justify-between">
-                      {item.label}
-                      <ChevronDown className="h-4 w-4 -rotate-90 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                    </div>
-                  </Link>
-                ))}
-
-                <div className="px-2 py-4 space-y-3 border-t border-white/10 mt-4">
-                  {isAuthenticated ? (
-                    <>
-                      {/* Enhanced User Info in Mobile */}
-                      <div className="flex items-center space-x-4 py-4 px-4 bg-gradient-to-r from-white/5 to-transparent rounded-xl border border-white/10">
-                        {getUserPhoto() ? (
-                          <img
-                            src={getUserPhoto()}
-                            alt="Profile"
-                            className="w-12 h-12 rounded-full border-2 border-accent/50 object-cover shadow-lg"
-                          />
-                        ) : (
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent via-blue-500 to-purple-500 flex items-center justify-center border-2 border-accent/50 shadow-lg">
-                            <span className="text-sm font-bold text-white">
-                              {getUserInitials(getUserDisplayName())}
-                            </span>
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <p className="text-sm text-white font-medium">
-                            {getUserDisplayName()}
-                          </p>
-                          <p className="text-xs text-white/60">
-                            {user?.email || ""}
-                          </p>
-                          <div className="flex items-center mt-1">
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full mr-1" />
-                            <span className="text-xs text-yellow-400 font-medium">
-                              {getUserRole()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <Link
-                        href="/attendance"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <Button className="w-full bg-gradient-to-r from-accent to-blue-500 hover:from-accent/90 hover:to-blue-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 group">
-                          <span className="flex items-center">
-                            Make Attendance
-                            <Sparkles className="ml-2 h-4 w-4 transition-all duration-300" />
-                          </span>
-                        </Button>
-                      </Link>
-
-                      {[
-                        {
-                          href: "/profile",
-                          icon: User,
-                          label: "Profile",
-                          key: "profile-mobile",
-                        },
-                        {
-                          href: getDashboardLink(),
-                          icon: Activity,
-                          label: "Dashboard",
-                          key: "dashboard-mobile",
-                        },
-                        {
-                          href: "/settings",
-                          icon: Settings,
-                          label: "Settings",
-                          key: "settings-mobile",
-                        },
-                      ]
-                        .filter(
-                          (item, index, arr) =>
-                            // Remove dashboard if it points to profile to avoid duplicates
-                            !(
-                              item.key === "dashboard-mobile" &&
-                              item.href === "/profile"
-                            )
-                        )
-                        .map((item) => (
-                          <Link
-                            key={item.key}
-                            href={item.href}
-                            onClick={() => setIsMenuOpen(false)}
-                            className="flex items-center px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-300 rounded-xl group"
-                          >
-                            <item.icon className="h-5 w-5 mr-3 group-hover:text-accent transition-colors duration-300" />
-                            {item.label}
-                            <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <ChevronDown className="h-4 w-4 -rotate-90" />
-                            </div>
-                          </Link>
-                        ))}
-
-                      <Button
-                        className="w-full bg-gradient-to-r from-red-600/80 to-red-700/80 hover:from-red-700 hover:to-red-800 text-white font-medium shadow-lg transition-all duration-300 group"
-                        onClick={handleLogout}
-                      >
-                        <LogOut className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
-                        Logout
-                      </Button>
-                    </>
-                  ) : (
-                    <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
-                      <Button className="w-full bg-gradient-to-r from-accent to-blue-500 hover:from-accent/90 hover:to-blue-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <span className="flex items-center">
-                          Login / Signup
-                          <Sparkles className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                        </span>
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
+
+      {/* Mobile Navigation Overlay */}
+      {isMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-49 md:hidden"
+            onClick={() => setIsMenuOpen(false)}
+            style={{ animation: "fadeIn 0.3s ease-out" }}
+          />
+
+          {/* Right Side Panel */}
+          <div
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-br from-black/95 via-gray-900/95 to-black/95 backdrop-blur-2xl border-l border-white/20 z-52 md:hidden shadow-2xl"
+            style={{ animation: "slideInRight 0.3s ease-out" }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center space-x-3">
+                <div className="relative bg-gradient-to-br from-accent to-blue-500 p-2 rounded-xl shadow-lg">
+                  <BookOpen className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-white">Learnova</h2>
+                  <p className="text-xs text-white/50 uppercase tracking-wider">
+                    Menu
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
+              >
+                <X className="h-7 w-7" />
+              </Button>
+            </div>
+
+            {/* User Info Section */}
+            {isAuthenticated && (
+              <div className="p-6 border-b border-white/10">
+                <div className="flex items-center space-x-4 mb-4">
+                  {getUserPhoto() ? (
+                    <img
+                      src={getUserPhoto()}
+                      alt="Profile"
+                      className="w-14 h-14 rounded-full border-2 border-accent/50 object-cover shadow-lg"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent via-blue-500 to-purple-500 flex items-center justify-center border-2 border-accent/50 shadow-lg">
+                      <span className="text-lg font-bold text-white">
+                        {getUserInitials(getUserDisplayName())}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold text-base truncate">
+                      {getUserDisplayName()}
+                    </h3>
+                    <p className="text-white/60 text-sm truncate">
+                      {user?.email || ""}
+                    </p>
+                    <div className="flex items-center mt-1">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2" />
+                      <span className="text-xs text-yellow-400 font-medium">
+                        {getUserRole()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Link href="/attendance" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-gradient-to-r from-accent/90 to-blue-500/90 hover:from-accent hover:to-blue-600 text-white text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200">
+                      <UserCheck className="h-4 w-4 mr-2" />
+                      Attendance
+                    </Button>
+                  </Link>
+                  <Link href="/notices" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-gradient-to-r from-purple-500/90 to-pink-500/90 hover:from-purple-600 hover:to-pink-600 text-white text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200">
+                      <Bell className="h-4 w-4 mr-2" />
+                      Notices
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation Menu */}
+            <div className="flex-1 overflow-y-auto py-4">
+              <div className="px-4 space-y-2">
+                {/* Main Navigation */}
+                <div className="mb-6">
+                  <h4 className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-3 px-2">
+                    Navigation
+                  </h4>
+                  {navigationItems.map((item, index) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-200 rounded-xl group"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <item.icon className="h-5 w-5 mr-4 group-hover:text-accent transition-colors duration-200" />
+                      <span className="font-medium">{item.label}</span>
+                      <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <ChevronDown className="h-4 w-4 -rotate-90 text-accent" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* User Menu */}
+                {isAuthenticated ? (
+                  <div className="mb-6">
+                    <h4 className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-3 px-2">
+                      Account
+                    </h4>
+                    {userMenuItems.map((item) => (
+                      <Link
+                        key={item.key}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-accent/10 hover:to-blue-500/10 transition-all duration-200 rounded-xl group"
+                      >
+                        <item.icon className="h-5 w-5 mr-4 group-hover:text-accent transition-colors duration-200" />
+                        <span className="font-medium">{item.label}</span>
+                        <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <ChevronDown className="h-4 w-4 -rotate-90 text-accent" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+
+            {/* Bottom Section */}
+            <div className="p-6 border-t border-white/10 space-y-4">
+              {isAuthenticated ? (
+                <Button
+                  className="w-full bg-gradient-to-r from-red-500/80 to-red-600/80 hover:from-red-600 hover:to-red-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="h-4 w-4 mr-3 group-hover:scale-110 transition-transform duration-200" />
+                  Sign Out
+                </Button>
+              ) : (
+                <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full bg-gradient-to-r from-accent to-blue-500 hover:from-accent/90 hover:to-blue-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 group">
+                    <Sparkles className="h-4 w-4 mr-3 group-hover:animate-spin transition-all duration-300" />
+                    Get Started
+                  </Button>
+                </Link>
+              )}
+              <div className="text-center">
+                <p className="text-white/40 text-xs">
+                  © 2024 Learnova. All rights reserved.
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       <style jsx>{`
         @keyframes shimmer {
@@ -533,6 +570,43 @@ export function Navbar() {
         }
         .animate-shimmer {
           animation: shimmer 3s infinite;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+
+        .animate-in {
+          animation-fill-mode: both;
+        }
+
+        .slide-in-from-top-2 {
+          animation: slideInFromTop 0.2s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </>

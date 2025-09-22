@@ -178,7 +178,7 @@ export default function AboutPage() {
             <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full border border-purple-500/30 backdrop-blur-sm mb-8">
               <Sparkles className="w-4 h-4 text-purple-400 mr-2" />
               <span className="text-purple-300 text-sm font-medium">
-                Introducing Learnova 2.0
+                Introducing Learnova
               </span>
             </div>
 
@@ -214,7 +214,7 @@ export default function AboutPage() {
             </div>
 
             <div className="relative">
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto mb-8">
+              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
                 The most advanced platform for{" "}
                 <span className="text-accent font-semibold">
                   curriculum planning
@@ -230,7 +230,7 @@ export default function AboutPage() {
         </section>
 
         {/* Mission Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <section className="md:py-20 px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
