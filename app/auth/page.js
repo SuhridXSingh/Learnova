@@ -112,19 +112,24 @@ export default function AuthPage() {
       }
 
       if (result.needsVerification) {
+        toast.success("Verification email sent! Please check your inbox.");
         setShowRoleSelection(true);
         router.push("/verify");
       } else if (result.needsProfile) {
+        toast.success("Account created successfully!");
         setShowRoleSelection(true);
         router.push("/profile");
       } else if (result.success) {
+        toast.success(isLogin ? "Successfully logged in!" : "Account created successfully!");
         setShowRoleSelection(true);
         redirectBasedOnRole(result.userData.role, router);
       } else {
+        toast.error(result.error || "Authentication failed. Please try again.");
         setErrors({ submit: result.error || "Something went wrong. Please try again." });
       }
     } catch (err) {
       console.error("Auth error:", err);
+      toast.error("An unexpected error occurred. Please try again.");
       setErrors({ submit: "An unexpected error occurred. Please try again." });
     } finally {
       setIsLoading(false);
@@ -157,12 +162,15 @@ export default function AuthPage() {
       });
 
       if (result.success) {
+        toast.success("Successfully logged in with Google!");
         redirectBasedOnRole(result.userData.role, router);
       } else {
+        toast.error(result.error || "Google authentication failed.");
         setErrors({ submit: result.error });
       }
     } catch (err) {
       console.error("Google auth error:", err);
+      toast.error("An unexpected error occurred. Please try again.");
       setErrors({ submit: "An unexpected error occurred. Please try again." });
     } finally {
       setIsLoading(false);

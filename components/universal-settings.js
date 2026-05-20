@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
@@ -247,8 +248,10 @@ export default function UniversalSettings() {
     });
     if (!response.ok) throw new Error("Failed to save settings");
     setHasChanges(false);
+    toast.success("Settings updated successfully!");
   } catch (error) {
     console.error("Failed to save settings:", error);
+    toast.error("Failed to save settings. Please try again.");
   } finally {
     setIsLoading(false);
   }

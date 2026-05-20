@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { analytics } from "@/lib/firebaseConfig";
 import { logEvent } from "firebase/analytics";
 import React from "react";
+import toast from "react-hot-toast";
 import { Upload, User, Mail, Hash, Sparkles, CheckCircle } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { useAuth } from "@/hooks/useAuth";
@@ -59,11 +60,14 @@ export default function RegisterPage() {
         setRollNo("");
         setEmail(user?.email || ""); // ✅ Reset email to auth user's email
         setPhoto(null);
+        toast.success("Registration successful!");
       } else {
         setError(data.error || "An unknown error occurred."); // ✅ Provide a default error message
+        toast.error(data.error || "Registration failed. Please try again.");
       }
     } catch (err) {
       setError("Network error. Please try again.");
+      toast.error("Network error. Please try again.");
     } finally {
       setIsLoading(false);
     }
