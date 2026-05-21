@@ -39,12 +39,25 @@ export async function GET(request) {
       return jsonError("Unauthorized: Invalid token", 401);
     }
 
-    // 3. Fetch Data with Projection
+    // 3. Fetch Data with Projection, Search Filtering & Bounded Results
+    const { searchParams } = new URL(request.url);
+    const search = searchParams.get("search")?.trim() || "";
+
+    const query = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {};
+
     const db = await connectDb();
     const users = db.collection("users");
 
     const allUsers = await users
-      .find({}, { projection: { _id: 0, name: 1, email: 1, image: 1 } })
+      .find(query, { projection: { _id: 0, name: 1, email: 1, image: 1 } })
+      .limit(50)
       .toArray();
 
     return jsonSuccess(allUsers, 200);
