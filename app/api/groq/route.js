@@ -97,7 +97,10 @@ export async function POST(request) {
     }
 
     if (!response.ok) {
-      const errorBody = await response.json().catch(() => ({}));
+      const errorBody = await response.json().catch((error) => {
+        console.error("Error:", error);
+        return { error: "Something went wrong" };
+      });
       return jsonError(
         errorBody?.error?.message || "Groq request failed",
         response.status,
