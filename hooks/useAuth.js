@@ -63,6 +63,18 @@ export const useAuth = () => {
         } else {
           setUser(null);
           setUserProfile(null);
+
+          // Clear PWA caches on logout to prevent data leakage on shared devices
+          if (typeof window !== "undefined" && "caches" in window) {
+            try {
+              const cacheKeys = await caches.keys();
+              await Promise.all(
+                cacheKeys.map((key) => caches.delete(key))
+              );
+            } catch (cacheErr) {
+              console.warn("Failed to clear PWA caches on auth state change:", cacheErr);
+            }
+          }
         }
 
         setError(null);
@@ -88,6 +100,18 @@ export const useAuth = () => {
       await firebaseSignOut(auth);
       setUser(null);
       setUserProfile(null);
+
+      // Clear all PWA caches to prevent cached API responses from persisting after logout
+      if (typeof window !== "undefined" && "caches" in window) {
+        try {
+          const cacheKeys = await caches.keys();
+          await Promise.all(
+            cacheKeys.map((key) => caches.delete(key))
+          );
+        } catch (cacheErr) {
+          console.warn("Failed to clear PWA caches on sign out:", cacheErr);
+        }
+      }
     } catch (err) {
       console.error("Sign out error:", err);
       setError(err.message);
