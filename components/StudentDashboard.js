@@ -371,7 +371,10 @@ const StudentDashboard = () => {
                   Attendance Overview
                 </h2>
 
-                <button className="text-accent hover:text-accent/80 transition-colors">
+                <button
+                  className="text-accent hover:text-accent/80 transition-colors"
+                  aria-label="Refresh attendance overview"
+                >
                   <RefreshCw className="w-5 h-5" />
                 </button>
               </div>
@@ -435,7 +438,10 @@ const StudentDashboard = () => {
                   Recent Activity
                 </h2>
 
-                <button className="text-accent hover:text-accent/80 transition-colors">
+                <button
+                  className="text-accent hover:text-accent/80 transition-colors"
+                  aria-label="Download recent activity"
+                >
                   <Download className="w-5 h-5" />
                 </button>
               </div>
