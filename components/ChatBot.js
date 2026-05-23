@@ -187,7 +187,7 @@ const LearnovaChatbot = () => {
               <CheckCircle2 size={13} /> Live Engine
             </span>
           ) : (
-            <span className="flex items-center gap-1 text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
+            <span className="flex items-center gap-1 text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full">
               <AlertCircle size={13} /> Sandbox Mode
             </span>
           )}
@@ -203,7 +203,7 @@ const LearnovaChatbot = () => {
             <button
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 ${
                 isSelected 
                   ? "bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs" 
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent"
@@ -262,7 +262,9 @@ const LearnovaChatbot = () => {
       {/* Input Form Panel */}
       <footer className="p-4 bg-white border-t border-slate-200">
         <form onSubmit={handleSendMessage} className="relative flex items-end gap-2 bg-slate-50 border border-slate-200 rounded-xl p-2 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all">
+          <label htmlFor="chatbot-message-input" className="sr-only">Type your message</label>
           <textarea
+            id="chatbot-message-input"
             ref={textareaRef}
             rows={1}
             value={inputMessage}
@@ -279,7 +281,8 @@ const LearnovaChatbot = () => {
           <button
             type="submit"
             disabled={!inputMessage.trim() || isLoading}
-            className={`p-2.5 rounded-lg transition-all ${
+            aria-label="Send message"
+            className={`p-2.5 rounded-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 ${
               inputMessage.trim() && !isLoading
                 ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm"
                 : "bg-slate-100 text-slate-400 cursor-not-allowed"
@@ -288,7 +291,7 @@ const LearnovaChatbot = () => {
             <Send size={16} />
           </button>
         </form>
-        <p className="text-[11px] text-center text-slate-400 mt-2 font-medium">
+        <p className="text-[11px] text-center text-slate-600 mt-2 font-medium">
           Powered by Groq Cloud API Engine • Shift + Enter for new lines
         </p>
       </footer>
