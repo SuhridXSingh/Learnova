@@ -322,19 +322,7 @@ export default function AboutPage() {
       <div className="min-h-screen relative z-50">
         <Navbar />
 
-        <div className="fixed top-24 right-6 z-[9999]">
-  <select
-    value={language}
-    onChange={(e) => setLanguage(e.target.value)}
-    className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400"
-    aria-label="Select language"
-  >
-    <option value="en">English</option>
-    <option value="hi">Hindi</option>
-  </select>
-</div>
 
-        
         {/* Hero Section */}
         <section
           id="hero"
