@@ -3,7 +3,7 @@
     "username": "Premshaw23",
     "name": "Prem Shaw",
     "admin": true,
-    "contributions": 553
+    "contributions": 535
   },
   {
     "username": "Prateek2007-cmd",
@@ -26,10 +26,6 @@
     "contributions": 20
   },
   {
-    "username": "Vaishnav-Hub9",
-    "contributions": 19
-  },
-  {
     "username": "PRODHOSH",
     "contributions": 17
   },
@@ -42,12 +38,16 @@
     "contributions": 16
   },
   {
+    "username": "Vaishnav-Hub9",
+    "contributions": 16
+  },
+  {
     "username": "Sandeep6135",
     "contributions": 11
   },
   {
     "username": "Pratyush-Panda-2006",
-    "contributions": 11
+    "contributions": 10
   },
   {
     "username": "pragya0129",
@@ -99,10 +99,6 @@
   },
   {
     "username": "Copilot",
-    "contributions": 4
-  },
-  {
-    "username": "harshbok69-bit",
     "contributions": 4
   },
   {
@@ -158,23 +154,11 @@
     "contributions": 2
   },
   {
+    "username": "harshbok69-bit",
+    "contributions": 2
+  },
+  {
     "username": "dhiraj-dev-19",
-    "contributions": 2
-  },
-  {
-    "username": "vaishalig03",
-    "contributions": 2
-  },
-  {
-    "username": "Subham503",
-    "contributions": 2
-  },
-  {
-    "username": "Shayan-Bhowmik",
-    "contributions": 2
-  },
-  {
-    "username": "Nirmai-06",
     "contributions": 2
   },
   {
@@ -186,39 +170,23 @@
     "contributions": 2
   },
   {
-    "username": "Shrutika-Dahale",
-    "contributions": 1
+    "username": "Nirmai-06",
+    "contributions": 2
   },
   {
-    "username": "Tannie02",
-    "contributions": 1
+    "username": "Shayan-Bhowmik",
+    "contributions": 2
   },
   {
-    "username": "PanditG4303",
-    "contributions": 1
+    "username": "Subham503",
+    "contributions": 2
   },
   {
-    "username": "AnxhDarji",
-    "contributions": 1
+    "username": "vaishalig03",
+    "contributions": 2
   },
   {
-    "username": "Kritika200520",
-    "contributions": 1
-  },
-  {
-    "username": "Sagun-Bajpai",
-    "contributions": 1
-  },
-  {
-    "username": "sarthakshruti999-code",
-    "contributions": 1
-  },
-  {
-    "username": "shambhavivartika06-cmyk",
-    "contributions": 1
-  },
-  {
-    "username": "shruti-codes-design",
+    "username": "vedant7007",
     "contributions": 1
   },
   {
@@ -226,11 +194,35 @@
     "contributions": 1
   },
   {
-    "username": "vedant7007",
+    "username": "shambhavivartika06-cmyk",
     "contributions": 1
   },
   {
-    "username": "yuvraj-k-singh",
+    "username": "sarthakshruti999-code",
+    "contributions": 1
+  },
+  {
+    "username": "Sagun-Bajpai",
+    "contributions": 1
+  },
+  {
+    "username": "Kritika200520",
+    "contributions": 1
+  },
+  {
+    "username": "AnxhDarji",
+    "contributions": 1
+  },
+  {
+    "username": "PanditG4303",
+    "contributions": 1
+  },
+  {
+    "username": "Tannie02",
+    "contributions": 1
+  },
+  {
+    "username": "Shrutika-Dahale",
     "contributions": 1
   },
   {
