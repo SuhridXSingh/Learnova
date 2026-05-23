@@ -430,14 +430,13 @@ const LearnovaChatbot = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen w-full max-w-4xl mx-auto bg-slate-950 text-white border-x border-slate-800">
-
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 py-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur-xl">
-
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600">
-            <Sparkles size={18} />
+    <div className="flex flex-col h-[100dvh] max-w-4xl w-full mx-auto bg-slate-50 border-x border-slate-200 shadow-sm px-0 sm:px-0">
+      
+      {/* Header Panel */}
+      <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 bg-indigo-600 rounded-lg text-white">
+            <Sparkles size={20} />
           </div>
 
           <div>
