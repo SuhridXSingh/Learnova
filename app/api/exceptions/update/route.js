@@ -73,9 +73,11 @@ export const PUT = withErrorHandler(async (request) => {
           reviewedAt: new Date(),
           updatedAt: new Date(),
         },
-      },
-    }
-  );
+      }
+    );
+  } catch (error) {
+    throw new AppError("Internal server error", 500);
+  }
 
   if (result.matchedCount === 0) throw new NotFoundError("Exception not found");
 

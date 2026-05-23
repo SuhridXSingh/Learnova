@@ -6,7 +6,6 @@ import { z } from "zod";
 import { withErrorHandler } from "@/lib/error-handler";
 import { requireAuth } from "@/lib/rbac";
 import { ValidationError, ForbiddenError } from "@/lib/errors";
-import logger from "@/utils/logger"; // Import the central Winston logger
 
 export const dynamic = "force-dynamic";
 
@@ -146,7 +145,7 @@ export const PATCH = withErrorHandler(async (request) => {
   );
 
   // FIX: Replaced unstructured console.log with a professional Winston audit block
-  logger.info({
+  console.info({
     message: "User settings profiles modified successfully",
     targetUserId,
     operatorId: decodedToken.uid,

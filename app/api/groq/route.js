@@ -3,7 +3,6 @@ import { detectInjection, sanitizeMessage, buildSecureMessages } from "@/utils/p
 import { checkRateLimit } from "@/lib/rateLimit";
 import { withErrorHandler, authenticateRequest } from "@/lib/error-handler";
 import { AppError, ValidationError } from "@/lib/errors";
-import logger from "@/utils/logger"; // Import the central Winston logger
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +43,7 @@ export const POST = withErrorHandler(async (request) => {
   const { isInjection, matchedPattern } = detectInjection(trimmedMessage);
   if (isInjection) {
     // FIX: Replaced raw console.warn with centralized, structured logger
-    logger.warn({
+    console.warn({
       message: "Prompt injection attempt blocked",
       uid: decodedToken.uid,
       pattern: matchedPattern,
@@ -94,7 +93,7 @@ export const POST = withErrorHandler(async (request) => {
       errorBody = await response.json();
     } catch (parseError) {
       // FIX: Removed empty catch logic that hid internal downstream parsing failures
-      logger.error({
+      console.error({
         message: "Failed to parse Groq error response JSON body",
         error: parseError.message,
       });
@@ -115,7 +114,7 @@ export const POST = withErrorHandler(async (request) => {
   }
 
   // Optional: Structured info log for audit tracking tracking
-  logger.info({
+  console.info({
     message: "Groq completion generated successfully",
     uid: decodedToken.uid,
   });
