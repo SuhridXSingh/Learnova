@@ -1,5 +1,5 @@
 import { jsonSuccess, jsonError } from "@/lib/api-response";
-import { verifyFirebaseToken } from "@/lib/firebase-admin";
+import { authenticateRequest } from "@/lib/error-handler";
 import { AppError } from "@/lib/errors";
 
 export const dynamic = "force-dynamic";
@@ -11,19 +11,8 @@ import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(request) {
   try {
-    // Authentication
-    const authorization =
-      request.headers.get("authorization");
-
-    const token =
-      authorization?.split(" ")[1];
-
     const decodedToken =
-      await verifyFirebaseToken(token);
-
-    if (!decodedToken) {
-      return jsonError("Unauthorized", 401);
-    }
+      await authenticateRequest(request);
 
     // Rate limiting
     const rateLimitResult = await checkRateLimit(decodedToken.uid);
@@ -156,6 +145,13 @@ export async function POST(request) {
       message: content,
     });
   } catch (error) {
+    if (error instanceof AppError) {
+      return jsonError(
+        error.message,
+        error.statusCode
+      );
+    }
+
     if (error.name === "AbortError") {
       return jsonError(
         "Gateway Timeout: AI response took too long.",
