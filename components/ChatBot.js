@@ -303,7 +303,7 @@ const LearnovaChatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("general");
 
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -312,10 +312,15 @@ const LearnovaChatbot = () => {
     }
   }, [inputMessage]);
 
-  // Auto scroll
+  // Auto scroll within the chat panel only (avoid scrolling the page)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (!isOpen || isMinimized) return;
+
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages, isOpen, isMinimized]);
 
   // Auto-resize textarea
   const handleInputChange = (e) => {
@@ -498,7 +503,10 @@ const LearnovaChatbot = () => {
           </div>
 
           {/* ── Messages Area ─────────────────────────────────────────────── */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-4 scrollbar-none">
+          <div
+            ref={messagesContainerRef}
+            className="flex-1 overflow-y-auto p-3 space-y-4 scrollbar-none"
+          >
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -578,7 +586,6 @@ const LearnovaChatbot = () => {
               </div>
             )}
 
-            <div ref={messagesEndRef} />
           </div>
 
           {/* ── Quick Contact Bar ─────────────────────────────────────────── */}
