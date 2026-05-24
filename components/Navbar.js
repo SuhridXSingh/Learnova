@@ -273,7 +273,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`text-sm font-bold tracking-wide px-5 py-2 rounded-xl transition-all duration-200 ${
+                    className={`text-xs md:text-sm font-semibold tracking-wide px-3 md:px-5 py-2 text-sm rounded-xl transition-all duration-200 ${
                       isActive
                         ? "bg-accent/20 text-gray-950 dark:text-white font-medium"
                         : "text-gray-900 dark:text-gray-50 hover:text-gray-950 dark:hover:text-white hover:bg-accent/10"
@@ -441,7 +441,7 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-gray-900 dark:text-gray-50 hover:text-accent hover:bg-accent/10 transition-all duration-300"
               >
-                {isMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+                {isMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
               </Button>
             </div>
                   </div>
@@ -452,7 +452,7 @@ export function Navbar() {
       {isMenuOpen && (
         <>
           <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[85]" onClick={() => setIsMenuOpen(false)} />
-          <div className="fixed top-4 right-4 max-w-[85vw] w-64 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-900 rounded-2xl shadow-xl p-4 space-y-4 z-[90] flex flex-col transition-all">
+          <div className="fixed top-4 right-4 max-w-[90vw] w-72 sm:w-80 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-900 rounded-2xl shadow-xl p-4 space-y-4 z-[90] flex flex-col transition-all">
             <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-900 pb-2">
               <span className="font-bold text-sm text-zinc-400 uppercase tracking-wider">Menu</span>
               <X className="h-5 w-5 text-zinc-400 cursor-pointer" onClick={() => setIsMenuOpen(false)} />
@@ -477,7 +477,7 @@ export function Navbar() {
             )}
 
             {/* Mobile Nav Actions */}
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-2">
               {navigationItems.map((item) => (
                 <Link key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900">
                   <item.icon className="h-4 w-4 mr-2.5 text-zinc-400" />
