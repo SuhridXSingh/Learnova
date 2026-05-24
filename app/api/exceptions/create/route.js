@@ -10,11 +10,11 @@ export const POST = withErrorHandler(async (request) => {
     const body = await request.json();
     const { reason, details, date } = body;
 
-    if (!reason || typeof reason !== "string" || reason.trim() === "") {
-      throw new ValidationError("Reason is required and must be a string");
+    if (!reason || typeof reason !== "string" || reason.trim() === "" || reason.length > 200) {
+      throw new ValidationError("Reason is required and must be under 200 characters");
     }
-    if (!details || typeof details !== "string" || details.trim() === "") {
-      throw new ValidationError("Details are required and must be a string");
+    if (!details || typeof details !== "string" || details.trim() === "" || details.length > 1000) {
+      throw new ValidationError("Details are required and must be under 1000 characters");
     }
     if (!date || typeof date !== "string" || date.trim() === "") {
       throw new ValidationError("Date is required and must be a string");
