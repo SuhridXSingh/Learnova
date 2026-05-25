@@ -447,9 +447,7 @@ const LearnovaChatbot = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true); // This is the only one we need!
   const [messages, setMessages] = useState(() => [INITIAL_MESSAGE]);
-  const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("general");
@@ -584,12 +582,6 @@ const LearnovaChatbot = () => {
   // ---------------------------------------------------------------------------
   
   const themeTokens = {
-    bg: isDarkMode 
-      ? "bg-gray-950/90 backdrop-blur-xl text-white" 
-      : "bg-white/95 backdrop-blur-xl text-gray-900",
-    header: "bg-gradient-to-r from-purple-700 via-blue-700 to-indigo-700",
-    border: isDarkMode ? "border-gray-700" : "border-gray-200",
-  const t = {
     bg: isDarkMode 
       ? "bg-gray-950/90 backdrop-blur-xl text-white" 
       : "bg-white/95 backdrop-blur-xl text-gray-900",
