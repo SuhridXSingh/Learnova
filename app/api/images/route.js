@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDb } from "@/lib/mongodb";
 import { requireAuth, requireRole } from "@/lib/rbac";
 import { withErrorHandler } from "@/lib/error-handler";
+import { del, put } from "@vercel/blob";
 import {
   extractImageFileFromFormData,
   fetchAndValidateImage,
@@ -149,10 +150,15 @@ export const POST = withErrorHandler(async (request) => {
     if (faceDescriptor) {
       updatePayload.faceDescriptor = faceDescriptor;
     }
-    await users.updateOne(
-      { firebaseUid: decodedToken.uid },
-      { $set: updatePayload }
-    );
+    try {
+      await users.updateOne(
+        { firebaseUid: decodedToken.uid },
+        { $set: updatePayload }
+      );
+    } catch (error) {
+      await del(blob.url).catch(() => {});
+      throw error;
+    }
 
   return NextResponse.json({ success: true, url: blobUrl });
 });

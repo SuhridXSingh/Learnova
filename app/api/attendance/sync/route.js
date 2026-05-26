@@ -4,6 +4,7 @@ import { initFirebaseAdmin, getUserProfile } from "@/lib/firebase-admin";
 import { requireAuth } from "@/lib/rbac";
 import { withErrorHandler, parseJSON } from "@/lib/error-handler";
 import { getLocalDateKey } from "@/lib/dateUtils";
+import { awardXp } from "@/lib/gamification-service";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -166,6 +167,14 @@ async function handleSync(request) {
 
     successfulIds.push(record.id);
     processedUserDates.add(userDateKey);
+
+    try {
+      await awardXp(decodedToken.uid, "attendance_marked", {
+        attendanceHour: record.queuedAt ? new Date(record.queuedAt).getHours() : new Date().getHours(),
+      });
+    } catch (error) {
+      console.error(`Failed to award XP for offline-synced record (${decodedToken.uid}_${recordDate}):`, error);
+    }
   }
 
   return NextResponse.json({
